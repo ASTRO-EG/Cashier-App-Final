@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل الكاشير - تسجيل الدخول</title>
+    <style>
+        /* ------------------------------------------------ */
+        /* التنسيقات العامة (المظهر الفاتح - الافتراضي) */
+        /* ------------------------------------------------ */
+        :root {
+            --primary-color: #007bff; /* أزرق أساسي */
+            --secondary-color: #28aa46; /* أخضر للأزرار الإيجابية */
+            --danger-color: #dc3545; /* أحمر للخطر/الحذف */
+            --text-color: #212529; /* لون النص الأساسي (أسود داكن) */
+            --background-color: #f8f9fa; /* خلفية الصفحة الفاتحة */
+            --container-bg: #ffffff; /* خلفية الصندوق الرئيسي */
+            --input-bg: #e9ecef; /* خلفية المدخلات والملخص */
+            --border-color: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --header-color: #0056b3;
+        }
+
+        /* ------------------------------------------------ */
+        /* الوضع المظلم (Dark Mode) - يتم تفعيله تلقائياً */
+        /* ------------------------------------------------ */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #66b3ff; /* أزرق فاتح للمظهر المظلم */
+                --secondary-color: #38c15b;
+                --danger-color: #ff6b6b;
+                --text-color: #e9ecef; /* نص أبيض فاتح */
+                --background-color: #1a1a2e; /* خلفية داكنة جداً */
+                --container-bg: #22223b; /* خلفية الصندوق الرئيسي الداكنة */
+                --input-bg: #32324f;
+                --border-color: #3e3e5c;
+                --shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+                --header-color: #a0c4ff;
+            }
+            .item-table td:first-child {
+                background-color: #2c2c4a !important;
+            }
+        }
+        
+        /* التنسيقات المطبقة على الجميع */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--background-color); 
+            padding: 20px; 
+            text-align: right; 
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background-color: var(--container-bg); 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: var(--shadow); 
+        }
+        h1, h2, h3 { color: var(--header-color); border-bottom: none !important; }
+
+        /* ---------------------------------- */
+        /* شاشة تسجيل الدخول */
+        /* ---------------------------------- */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--primary-color); 
+            color: white; display: flex; justify-content: center;
+            align-items: center; z-index: 1000; text-align: center;
+        }
+        .login-box {
+            background-color: var(--container-bg); color: var(--text-color);
+            padding: 40px; border-radius: 10px; box-shadow: var(--shadow);
+            width: 300px;
+        }
+        .login-box input {
+            width: 100%; padding: 10px; margin: 10px 0;
+            border: 1px solid var(--border-color); border-radius: 5px;
+            box-sizing: border-box; text-align: right; direction: rtl;
+            background-color: var(--input-bg); color: var(--text-color);
+        }
+        #login-button {
+            background-color: var(--secondary-color); color: white;
+            padding: 10px; border: none; border-radius: 5px; cursor: pointer;
+            width: 100%; margin-top: 15px; font-size: 1.1em;
+            transition: background-color 0.2s;
+        }
+        #login-button:hover { background-color: #1e7e34; }
+
+
+        /* ---------------------------------- */
+        /* واجهة الكاشير */
+        /* ---------------------------------- */
+        #cashier-content { display: none; }
+        
+        .category-title { 
+            font-size: 1.4em; font-weight: 600; margin-top: 25px; 
+            margin-bottom: 10px; padding-bottom: 5px; 
+            border-bottom: 2px solid var(--primary-color); 
+            color: var(--primary-color); 
+        }
+        
+        /* تنسيق جدول الإدخال */
+        .item-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 25px; border-radius: 8px; overflow: hidden; }
+        .item-table th, .item-table td { padding: 12px; border: 1px solid var(--border-color); text-align: center; }
+        .item-table th { background-color: var(--input-bg); font-weight: bold; color: var(--text-color); }
+        .item-table td:first-child { text-align: right; font-weight: bold; color: var(--danger-color); background-color: var(--background-color); }
+        .item-table tr:hover td { background-color: var(--input-bg); }
+
+        /* الأزرار والمدخلات */
+        .quantity-input { 
+            width: 50px; text-align: center; padding: 5px; 
+            border: 1px solid var(--border-color); border-radius: 4px;
+            background-color: var(--container-bg); color: var(--text-color);
+        }
+        .quantity-btn { 
+            padding: 6px 12px; border: none; background-color: var(--danger-color); 
+            color: white; border-radius: 4px; cursor: pointer; font-weight: bold; 
+            transition: background-color 0.2s;
+        }
+        .quantity-btn.plus { background-color: var(--secondary-color); }
+        .quantity-btn:hover { opacity: 0.8; }
+        
+        /* صناديق الملخص */
+        .summary-box { 
+            background-color: var(--input-bg); padding: 20px; 
+            border-radius: 8px; margin-top: 20px; font-size: 1.1em;
+            border: 1px dashed var(--primary-color);
+        }
+        
+        /* صندوق التقرير النهائي */
+        #final-report-container {
+            margin-top: 40px; padding: 25px; border: 3px solid var(--primary-color);
+            background-color: var(--container-bg); border-radius: 12px; display: none; 
+        }
+        #final-report-container table { border: 1px solid var(--border-color); }
+        #final-report-container th { background-color: var(--primary-color); color: white; }
+        .report-total-row { background-color: var(--input-bg); font-weight: bold; font-size: 1.1em; }
+
+        /* أزرار الإجراءات الرئيسية */
+        #end-period-btn { background-color: var(--primary-color); color: white; cursor: pointer; border: none; padding: 12px; width: 100%; border-radius: 6px; margin-top: 15px; }
+        #end-period-btn:hover { background-color: #0056b3; }
+        
+        #report-button { background-color: var(--secondary-color); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; margin-bottom: 5px; }
+        #report-button:hover { background-color: #1e7e34; }
+
+        #clear-log-btn { background-color: var(--danger-color); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 10px; }
+        #clear-log-btn:hover { background-color: #c82333; }
+        
+        .print-btn { background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; margin-top: 20px; width: auto; display: inline-block; }
+
+        /* تنسيق سجل الفترات السابقة */
+        .period-log {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: var(--background-color);
+        }
+        .period-log h3 { color: var(--primary-color); font-size: 1.1em; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-top: 0; }
+        .period-log strong { color: var(--text-color); }
+
+        /* تنسيقات الطباعة */
+        @media print {
+            body { background-color: white !important; color: black !important; }
+            .container { box-shadow: none; border: none; padding: 0; }
+            body > *:not(#final-report-container) { display: none; }
+            #final-report-container { display: block !important; border: none; background-color: white; padding: 0; }
+            .print-btn { display: none; }
+            h1, h2, h3 { color: black !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>تسجيل الدخول</h2>
+            <input type="text" id="username-input" placeholder="اسم المستخدم" required>
+            <input type="password" id="password-input" placeholder="كلمة المرور" required>
+            <button id="login-button" onclick="login()">دخول</button>
+        </div>
+    </div>
+
+
+    <div class="container" id="cashier-content">
+        
+        <h1>سجل الأوردرات اليومي</h1>
+        
+        <h2>أدخل الكمية المطلوبة بجانب كل صنف:</h2>
+        
+        <div id="item-inputs-container"></div>
+        
+        <div class="summary-box">
+            <h3>ملخص الفترة الحالية:</h3>
+            <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> <span id="total-orders-count">0</span></p>
+        </div>
+
+        <div id="total-input-box">
+            <h2>أدخل المبلغ الإجمالي</h2> 
+            <input type="number" id="total-amount" placeholder="أدخل مبلغ الإجمالي للفترة من الماكينة..." min="0">
+            <button id="end-period-btn" onclick="promptEndPeriod()">تسجيل المبلغ وإضافة الفترة</button>
+        </div>
+
+        <hr>
+
+        <div id="past-periods">
+            <h2>سجل الفترات السابقة</h2>
+        </div>
+        
+        <button id="report-button" onclick="promptDailyReport()">عرض تقرير مبيعات اليوم التفصيلي</button>
+
+        <button id="clear-log-btn" onclick="clearAllData()">حذف السجل بالكامل (بداية وردية جديدة)</button>
+
+        <div id="final-report-container">
+            <h3>التقرير التفصيلي لإجمالي مبيعات اليوم</h3>
+            <div id="detailed-sales-summary"></div>
+            <button class="print-btn" onclick="window.print()">طباعة التقرير</button>
+        </div>
+
+    </div>
+
+    <script>
+        // **********************************************
+        // ----------------- دوال الأمان -----------------
+        // **********************************************
+        function login() {
+            const correctUsername = "admin";
+            const correctPassword = "77907882";
+
+            const enteredUsername = document.getElementById('username-input').value;
+            const enteredPassword = document.getElementById('password-input').value;
+
+            if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('cashier-content').style.display = 'block';
+                
+                createItemInputs(); 
+            } else {
+                alert("اسم المستخدم أو كلمة المرور غير صحيحة.");
+            }
+        }
+
+
+        // 1. تعريف الأصناف الأساسية وخيارات الساندويتش 
+        const mainSandwiches = [
+            "شاورمه", "كفته", "كبده", "سجق", "مخ", "روزبيف", 
+            "جبنه رومي", "هامبرجر", "سوسيس"
+        ];
+        const sandwichOptions = ["كيذر", "شامي", "فينا", "طبق"];
+        const otherItemCategories = {
+            "أصناف جانبية": [
+                "مكرونه", "كبيبه", "شيبسي", "مخللات", "طرشي", "طلب عيش"
+            ],
+            "مشروبات غازية ومياه": [
+                "مياه معدنيه ص 600ملى", "مياه غازيه 300ملي", "مياه غازيه 400ملي", 
+                "مياه غازيه 300ملي بلاستيك", "كانز ك 320ملي", "كانز جيب 240ملى"
+            ],
+            "عصائر طبيعية": [
+                "عصير فواكه حسب الموسم", "عصير مانجو صيفي /فراوله", 
+                "عصير مانجو شتوي", "عصير رمان/عنب", "كوكتيل فواكه حسب الموسم"
+            ]
+        };
+        
+        let pastPeriods = []; 
+
+        function getAllItemNames() {
+            const names = [];
+            mainSandwiches.forEach(sandwich => {
+                sandwichOptions.forEach(option => {
+                    names.push(`${sandwich} ${option}`);
+                });
+            });
+            for (const category in otherItemCategories) {
+                names.push(...otherItemCategories[category]);
+            }
+            return names;
+        }
+        
+        // --- دوال إنشاء الواجهة وتحديثها (للاختصار) ---
+        
+        function createSandwichTable(container) {
+             const title = document.createElement('div');
+            title.className = 'category-title';
+            title.textContent = "الساندويتشات (مدمجة مع خيارات العيش/الطبق)";
+            container.appendChild(title);
+
+            const table = document.createElement('table');
+            table.className = 'item-table';
+
+            let thead = '<thead><tr><th>الصنف</th>';
+            sandwichOptions.forEach(option => {
+                thead += `<th>${option}</th>`;
+            });
+            thead += '</tr></thead>';
+            table.innerHTML = thead;
+
+            let tbody = '<tbody>';
+            mainSandwiches.forEach(sandwich => {
+                tbody += '<tr>';
+                tbody += `<td>${sandwich}</td>`; 
+
+                sandwichOptions.forEach(option => {
+                    const itemName = `${sandwich} ${option}`; 
+                    const safeId = `input-${itemName.replace(/\s|\//g, '_')}`;
+
+                    tbody += `<td>
+                        <div class="item-input-control">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity('${itemName}', -1)">-</button>
+                            <input type="number" id="${safeId}" class="quantity-input" value="0" min="0" oninput="updateSummary()">
+                            <button type="button" class="quantity-btn plus" onclick="updateQuantity('${itemName}', 1)">+</button>
+                        </div>
+                    </td>`;
+                });
+                tbody += '</tr>';
+            });
+            tbody += '</tbody>';
+            table.innerHTML += tbody;
+
+            container.appendChild(table);
+        }
+
+        function createOtherItemInputs(container) {
+             for (const category in otherItemCategories) {
+                const title = document.createElement('div');
+                title.className = 'category-title';
+                title.textContent = category;
+                container.appendChild(title);
+
+                const table = document.createElement('table');
+                table.className = 'item-table';
+                table.style.width = '50%'; /* تقليل عرض جدول الأصناف الأخرى */
+                table.style.float = 'right'; /* لجعله في اليمين */
+                
+                let tbody = '<tbody>';
+                otherItemCategories[category].forEach(item => {
+                    const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                    tbody += `<tr>
+                        <td style="width: 50%;">${item}</td>
+                        <td>
+                            <div class="item-input-control">
+                                <button type="button" class="quantity-btn" onclick="updateQuantity('${item}', -1)">-</button>
+                                <input type="number" id="${safeId}" class="quantity-input" value="0" min="0" oninput="updateSummary()">
+                                <button type="button" class="quantity-btn plus" onclick="updateQuantity('${item}', 1)">+</button>
+                            </div>
+                        </td>
+                    </tr>`;
+                });
+                tbody += '</tbody>';
+                table.innerHTML = tbody;
+                container.appendChild(table);
+                
+                // إضافة مسح (clearfix) بعد كل جدول للترتيب
+                const clearDiv = document.createElement('div');
+                clearDiv.style.clear = 'both';
+                container.appendChild(clearDiv);
+            }
+        }
+        
+        function createItemInputs() {
+            const container = document.getElementById('item-inputs-container');
+            if(container.children.length === 0) {
+                 createSandwichTable(container); 
+                 createOtherItemInputs(container); 
+            }
+            loadData();
+        }
+
+        function updateQuantity(itemName, delta) {
+            const safeId = `input-${itemName.replace(/\s|\//g, '_')}`;
+            const input = document.getElementById(safeId);
+            
+            if (!input) return;
+
+            let currentValue = parseInt(input.value) || 0;
+            let newValue = currentValue + delta;
+            
+            if (newValue < 0) newValue = 0; 
+
+            input.value = newValue;
+            updateSummary();
+        }
+
+        function updateSummary() {
+            let totalCount = 0;
+            const allItems = getAllItemNames();
+            
+            allItems.forEach(item => {
+                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const input = document.getElementById(safeId);
+                
+                if (input && input.value > 0) {
+                    totalCount += parseInt(input.value); 
+                }
+            });
+            
+            document.getElementById('total-orders-count').textContent = totalCount;
+        }
+        
+        function getCurrentItemsLog() {
+            const itemsLog = {};
+            const allItems = getAllItemNames();
+
+            allItems.forEach(item => {
+                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const input = document.getElementById(safeId);
+                const quantity = parseInt(input.value);
+                
+                if (quantity > 0) {
+                    itemsLog[item] = quantity;
+                }
+            });
+            return itemsLog;
+        }
+
+        function promptEndPeriod() {
+            const totalInput = document.getElementById('total-amount');
+            const totalAmount = parseFloat(totalInput.value);
+
+            if (isNaN(totalAmount) || totalAmount <= 0) {
+                alert("الرجاء إدخال المبلغ الإجمالي للفترة من الماكينة.");
+                totalInput.focus();
+                return;
+            }
+            endPeriod(totalAmount);
+        }
+
+        function endPeriod(totalAmount) {
+            const totalOrders = parseInt(document.getElementById('total-orders-count').textContent);
+
+            if (totalOrders === 0) {
+                alert("لا يوجد أصناف مسجلة في هذه الفترة.");
+                return;
+            }
+            
+            const currentItemsLog = getCurrentItemsLog();
+            const periodLog = {
+                id: pastPeriods.length + 1,
+                time: new Date().toLocaleTimeString('ar-EG'),
+                date: new Date().toLocaleDateString('ar-EG'),
+                totalAmount: totalAmount,
+                totalOrders: totalOrders, 
+                itemsLog: currentItemsLog
+            };
+
+            pastPeriods.push(periodLog);
+            saveData(); 
+
+            displayPastPeriods();
+
+            document.getElementById('total-amount').value = ''; 
+            
+            getAllItemNames().forEach(item => {
+                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const input = document.getElementById(safeId);
+                if (input) input.value = 0;
+            });
+            
+            updateSummary();
+
+            alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${totalAmount.toFixed(2)}.`);
+        }
+
+        function displayPastPeriods() {
+            const container = document.getElementById('past-periods');
+            container.innerHTML = '<h2>سجل الفترات السابقة</h2>'; 
+
+            const formatItemsLog = (log) => {
+                let html = '<ul style="list-style-type: square; margin-right: 20px;">';
+                for (const item in log) {
+                    if (log[item] > 0) {
+                        html += `<li><strong>${item}:</strong> <span style="color: var(--primary-color); font-weight: bold;">${log[item]}</span> قطعة</li>`;
+                    }
+                }
+                html += '</ul>';
+                return html;
+            };
+
+            pastPeriods.slice().reverse().forEach(period => {
+                const logDiv = document.createElement('div');
+                logDiv.className = 'period-log';
+                logDiv.innerHTML = `
+                    <h3>فترة رقم ${period.id} - ${period.time} (${period.date})</h3>
+                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${period.totalAmount.toFixed(2)}</span></p>
+                    <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> ${period.totalOrders}</p>
+                    <h4>تفاصيل الأصناف:</h4>
+                    ${formatItemsLog(period.itemsLog)}
+                `;
+                container.appendChild(logDiv);
+            });
+        }
+        
+        // ******************** دالة توليد التقرير التفصيلي ********************
+        function generateDailySalesReport() {
+            if (pastPeriods.length === 0) {
+                alert("لا يوجد بيانات مسجلة لإنشاء التقرير.");
+                return;
+            }
+
+            const combinedSales = {};
+            let totalMoney = 0;
+            let totalUnits = 0;
+
+            pastPeriods.forEach(period => {
+                totalMoney += period.totalAmount;
+                totalUnits += period.totalOrders;
+                for (const item in period.itemsLog) {
+                    combinedSales[item] = (combinedSales[item] || 0) + period.itemsLog[item];
+                }
+            });
+
+            const sortedItems = Object.entries(combinedSales)
+                .sort(([, a], [, b]) => b - a);
+
+            let tableHTML = '<table>';
+            tableHTML += '<thead><tr><th>الصنف</th><th>الكمية الكلية المباعة</th></tr></thead>';
+            tableHTML += '<tbody>';
+
+            sortedItems.forEach(([item, quantity]) => {
+                tableHTML += `<tr><td>${item}</td><td>${quantity} قطعة</td></tr>`;
+            });
+
+            tableHTML += `<tr class="report-total-row"><td>الإجمالي الكلي للقطع</td><td>${totalUnits} قطعة</td></tr>`;
+            tableHTML += `<tr class="report-total-row"><td>الإجمالي الكلي للمبلغ</td><td>${totalMoney.toFixed(2)}</td></tr>`;
+
+            tableHTML += '</tbody></table>';
+
+            const reportContainer = document.getElementById('final-report-container');
+            const summaryDiv = document.getElementById('detailed-sales-summary');
+            
+            summaryDiv.innerHTML = tableHTML;
+            reportContainer.style.display = 'block'; 
+            
+            setTimeout(() => {
+                reportContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 50); 
+            
+            alert("تم عرض تقرير مبيعات اليوم التفصيلي في نهاية الصفحة. يمكنك طباعته أو نسخه الآن.");
+        }
+
+        function promptDailyReport() {
+            if (pastPeriods.length === 0) {
+                alert("لا يوجد فترات مسجلة لإعداد التقرير.");
+                return;
+            }
+            document.getElementById('final-report-container').style.display = 'none';
+            generateDailySalesReport();
+        }
+
+        // دالة الحذف المنفصلة
+        function clearAllData() {
+            if (confirm("هل أنت متأكد من حذف السجل بالكامل؟ لن تتمكن من استعادة البيانات!")) {
+                localStorage.removeItem('cashierPeriods');
+                pastPeriods = [];
+                
+                document.getElementById('final-report-container').style.display = 'none';
+
+                displayPastPeriods();
+                alert("تم حذف السجل بالكامل بنجاح. يمكنك الآن تسجيل وردية/يوم جديد.");
+            }
+        }
+        
+        function saveData() {
+            localStorage.setItem('cashierPeriods', JSON.stringify(pastPeriods));
+        }
+
+        function loadData() {
+            const savedPeriods = localStorage.getItem('cashierPeriods');
+            if (savedPeriods) {
+                pastPeriods = JSON.parse(savedPeriods);
+                displayPastPeriods(); 
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('cashier-content').style.display = 'none';
+        });
+
+    </script>
+</body>
+</html>
