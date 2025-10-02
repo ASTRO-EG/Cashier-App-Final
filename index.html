@@ -6,39 +6,39 @@
     <title>سجل الكاشير - تسجيل الدخول</title>
     <style>
         /* ------------------------------------------------ */
-        /* التنسيقات العامة (المظهر الفاتح - الافتراضي) */
+        /* التنسيقات العامة (المظهر الفاتح - الزمردي) */
         /* ------------------------------------------------ */
         :root {
-            --primary-color: #007bff; /* أزرق أساسي */
-            --secondary-color: #28aa46; /* أخضر للأزرار الإيجابية */
-            --danger-color: #dc3545; /* أحمر للخطر/الحذف */
-            --text-color: #212529; /* لون النص الأساسي (أسود داكن) */
-            --background-color: #f8f9fa; /* خلفية الصفحة الفاتحة */
-            --container-bg: #ffffff; /* خلفية الصندوق الرئيسي */
-            --input-bg: #e9ecef; /* خلفية المدخلات والملخص */
-            --border-color: #dee2e6;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --header-color: #0056b3;
+            --primary-color: #008080; 
+            --secondary-color: #28a745; 
+            --danger-color: #dc3545; 
+            --text-color: #212529; 
+            --background-color: #e9f5f5; 
+            --container-bg: #ffffff; 
+            --input-bg: #f3fcfc; 
+            --border-color: #c9e0e0;
+            --shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --header-color: #006666;
         }
 
         /* ------------------------------------------------ */
-        /* الوضع المظلم (Dark Mode) - يتم تفعيله تلقائياً */
+        /* الوضع المظلم (Dark Mode) - الزمردي الداكن */
         /* ------------------------------------------------ */
         @media (prefers-color-scheme: dark) {
             :root {
-                --primary-color: #66b3ff; /* أزرق فاتح للمظهر المظلم */
+                --primary-color: #00b3b3; 
                 --secondary-color: #38c15b;
                 --danger-color: #ff6b6b;
-                --text-color: #e9ecef; /* نص أبيض فاتح */
-                --background-color: #1a1a2e; /* خلفية داكنة جداً */
-                --container-bg: #22223b; /* خلفية الصندوق الرئيسي الداكنة */
-                --input-bg: #32324f;
-                --border-color: #3e3e5c;
-                --shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-                --header-color: #a0c4ff;
+                --text-color: #e9ecef; 
+                --background-color: #1f2828; 
+                --container-bg: #2b3a3a; 
+                --input-bg: #3c4c4c;
+                --border-color: #4a5c5c;
+                --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                --header-color: #00cccc;
             }
             .item-table td:first-child {
-                background-color: #2c2c4a !important;
+                background-color: var(--background-color) !important;
             }
         }
         
@@ -78,7 +78,7 @@
         .login-box input {
             width: 100%; padding: 10px; margin: 10px 0;
             border: 1px solid var(--border-color); border-radius: 5px;
-            box-sizing: border-box; text-align: right; direction: rtl;
+            box-sizing: border-box; text-align: right; direction: rtl; /* تم التعديل */
             background-color: var(--input-bg); color: var(--text-color);
         }
         #login-button {
@@ -141,7 +141,7 @@
 
         /* أزرار الإجراءات الرئيسية */
         #end-period-btn { background-color: var(--primary-color); color: white; cursor: pointer; border: none; padding: 12px; width: 100%; border-radius: 6px; margin-top: 15px; }
-        #end-period-btn:hover { background-color: #0056b3; }
+        #end-period-btn:hover { background-color: #006666; }
         
         #report-button { background-color: var(--secondary-color); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; margin-bottom: 5px; }
         #report-button:hover { background-color: #1e7e34; }
@@ -166,11 +166,69 @@
         @media print {
             body { background-color: white !important; color: black !important; }
             .container { box-shadow: none; border: none; padding: 0; }
-            body > *:not(#final-report-container) { display: none; }
+            body > *:not(#final-report-container, #password-modal) { display: none; } 
             #final-report-container { display: block !important; border: none; background-color: white; padding: 0; }
             .print-btn { display: none; }
             h1, h2, h3 { color: black !important; }
         }
+
+        /* ---------------------------------- */
+        /* تنسيقات المودال السري الجديد */
+        /* ---------------------------------- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+        }
+
+        .modal-content {
+            background-color: var(--container-bg);
+            margin: 15% auto; 
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .modal-content h2 { color: var(--danger-color); }
+
+        #password-input-delete {
+            width: 90%; 
+            padding: 10px; 
+            margin: 15px 0;
+            border: 1px solid var(--border-color); 
+            border-radius: 5px;
+            box-sizing: border-box; 
+            text-align: center; 
+            direction: ltr;
+            background-color: var(--input-bg); 
+            color: var(--text-color);
+            font-size: 1.2em;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: opacity 0.2s;
+        }
+
+        #confirm-delete-btn { background-color: var(--danger-color); color: white; }
+        #cancel-delete-btn { background-color: #6c757d; color: white; }
+        #confirm-delete-btn:hover, #cancel-delete-btn:hover { opacity: 0.8; }
+
     </style>
 </head>
 <body>
@@ -222,17 +280,32 @@
 
     </div>
 
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <h2>تأكيد حذف السجل</h2>
+            <p>الرجاء إدخال كلمة سر المدير لتأكيد حذف جميع بيانات السجل:</p>
+            <input type="password" id="password-input-delete" placeholder="كلمة السر" autofocus>
+            <div class="modal-buttons">
+                <button id="confirm-delete-btn" onclick="executeClearData()">تأكيد الحذف</button>
+                <button id="cancel-delete-btn" onclick="closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // **********************************************
         // ----------------- دوال الأمان -----------------
         // **********************************************
+        const DELETION_PASSWORD = "77907882"; // كلمة السر الطويلة لحذف السجل ودخول المدير
+
         function login() {
             const correctUsername = "admin";
-            const correctPassword = "77907882";
+            const correctPassword = DELETION_PASSWORD; // استخدام نفس كلمة سر المدير
 
             const enteredUsername = document.getElementById('username-input').value;
             const enteredPassword = document.getElementById('password-input').value;
-
+            
+            // التحقق من اسم المستخدم وكلمة السر
             if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('cashier-content').style.display = 'block';
@@ -242,9 +315,36 @@
                 alert("اسم المستخدم أو كلمة المرور غير صحيحة.");
             }
         }
+        
+        // ******************** دوال المودال (النافذة المنبثقة) ********************
+        function closeModal() {
+            document.getElementById('password-modal').style.display = 'none';
+            document.getElementById('password-input-delete').value = ''; 
+        }
+
+        function executeClearData() {
+            const enteredPassword = document.getElementById('password-input-delete').value;
+            closeModal(); 
+
+            if (enteredPassword === DELETION_PASSWORD) {
+                // الحذف الفعلي للبيانات
+                localStorage.removeItem('cashierPeriods');
+                pastPeriods = [];
+                
+                document.getElementById('final-report-container').style.display = 'none';
+                displayPastPeriods();
+                alert("تم حذف السجل بالكامل بنجاح. يمكنك الآن تسجيل وردية/يوم جديد.");
+            } else {
+                alert("كلمة السر غير صحيحة. تم إلغاء عملية الحذف.");
+            }
+        }
 
 
-        // 1. تعريف الأصناف الأساسية وخيارات الساندويتش 
+        // **********************************************
+        // ----------------- دوال الكاشير -----------------
+        // **********************************************
+        
+        // تعريف الأصناف (بقي كما هو)
         const mainSandwiches = [
             "شاورمه", "كفته", "كبده", "سجق", "مخ", "روزبيف", 
             "جبنه رومي", "هامبرجر", "سوسيس"
@@ -278,8 +378,6 @@
             }
             return names;
         }
-        
-        // --- دوال إنشاء الواجهة وتحديثها (للاختصار) ---
         
         function createSandwichTable(container) {
              const title = document.createElement('div');
@@ -331,8 +429,8 @@
 
                 const table = document.createElement('table');
                 table.className = 'item-table';
-                table.style.width = '50%'; /* تقليل عرض جدول الأصناف الأخرى */
-                table.style.float = 'right'; /* لجعله في اليمين */
+                table.style.width = '50%'; 
+                table.style.float = 'right'; 
                 
                 let tbody = '<tbody>';
                 otherItemCategories[category].forEach(item => {
@@ -352,7 +450,6 @@
                 table.innerHTML = tbody;
                 container.appendChild(table);
                 
-                // إضافة مسح (clearfix) بعد كل جدول للترتيب
                 const clearDiv = document.createElement('div');
                 clearDiv.style.clear = 'both';
                 container.appendChild(clearDiv);
@@ -460,7 +557,7 @@
             
             updateSummary();
 
-            alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${totalAmount.toFixed(2)}.`);
+            alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${Math.trunc(totalAmount)}.`);
         }
 
         function displayPastPeriods() {
@@ -479,11 +576,13 @@
             };
 
             pastPeriods.slice().reverse().forEach(period => {
+                const truncatedAmount = Math.trunc(period.totalAmount); 
+                
                 const logDiv = document.createElement('div');
                 logDiv.className = 'period-log';
                 logDiv.innerHTML = `
                     <h3>فترة رقم ${period.id} - ${period.time} (${period.date})</h3>
-                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${period.totalAmount.toFixed(2)}</span></p>
+                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${truncatedAmount}</span></p> 
                     <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> ${period.totalOrders}</p>
                     <h4>تفاصيل الأصناف:</h4>
                     ${formatItemsLog(period.itemsLog)}
@@ -492,7 +591,6 @@
             });
         }
         
-        // ******************** دالة توليد التقرير التفصيلي ********************
         function generateDailySalesReport() {
             if (pastPeriods.length === 0) {
                 alert("لا يوجد بيانات مسجلة لإنشاء التقرير.");
@@ -514,6 +612,8 @@
             const sortedItems = Object.entries(combinedSales)
                 .sort(([, a], [, b]) => b - a);
 
+            const finalTotalMoney = Math.trunc(totalMoney); 
+
             let tableHTML = '<table>';
             tableHTML += '<thead><tr><th>الصنف</th><th>الكمية الكلية المباعة</th></tr></thead>';
             tableHTML += '<tbody>';
@@ -523,7 +623,7 @@
             });
 
             tableHTML += `<tr class="report-total-row"><td>الإجمالي الكلي للقطع</td><td>${totalUnits} قطعة</td></tr>`;
-            tableHTML += `<tr class="report-total-row"><td>الإجمالي الكلي للمبلغ</td><td>${totalMoney.toFixed(2)}</td></tr>`;
+            tableHTML += `<tr class="report-total-row"><td>الإجمالي الكلي للمبلغ</td><td>${finalTotalMoney}</td></tr>`; 
 
             tableHTML += '</tbody></table>';
 
@@ -549,17 +649,14 @@
             generateDailySalesReport();
         }
 
-        // دالة الحذف المنفصلة
+        // دالة الحذف: تفتح النافذة المنبثقة لطلب كلمة السر المخفية
         function clearAllData() {
-            if (confirm("هل أنت متأكد من حذف السجل بالكامل؟ لن تتمكن من استعادة البيانات!")) {
-                localStorage.removeItem('cashierPeriods');
-                pastPeriods = [];
-                
-                document.getElementById('final-report-container').style.display = 'none';
-
-                displayPastPeriods();
-                alert("تم حذف السجل بالكامل بنجاح. يمكنك الآن تسجيل وردية/يوم جديد.");
+            if (!confirm("هل أنت متأكد من حذف السجل بالكامل؟ هذه الخطوة لا يمكن التراجع عنها.")) {
+                return;
             }
+            // إظهار المودال (النافذة المنبثقة)
+            document.getElementById('password-modal').style.display = 'flex';
+            document.getElementById('password-input-delete').focus(); 
         }
         
         function saveData() {
@@ -576,6 +673,19 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cashier-content').style.display = 'none';
+            
+            // إضافة خاصية الضغط على Enter في المودال لتأكيد الحذف
+            document.getElementById('password-input-delete').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    executeClearData();
+                }
+            });
+            // إضافة خاصية الضغط على Enter في حقول الدخول
+            document.getElementById('password-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
         });
 
     </script>
