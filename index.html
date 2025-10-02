@@ -78,7 +78,7 @@
         .login-box input {
             width: 100%; padding: 10px; margin: 10px 0;
             border: 1px solid var(--border-color); border-radius: 5px;
-            box-sizing: border-box; text-align: right; direction: rtl; /* تم التعديل */
+            box-sizing: border-box; text-align: right; direction: rtl; 
             background-color: var(--input-bg); color: var(--text-color);
         }
         #login-button {
@@ -296,11 +296,12 @@
         // **********************************************
         // ----------------- دوال الأمان -----------------
         // **********************************************
-        const DELETION_PASSWORD = "77907882"; // كلمة السر الطويلة لحذف السجل ودخول المدير
+        const LOGIN_PASSWORD = "77907882"; // كلمة سر دخول الكاشير
+        const DELETION_PASSWORD = "111975"; // كلمة سر حذف السجل (المدير)
 
         function login() {
             const correctUsername = "admin";
-            const correctPassword = DELETION_PASSWORD; // استخدام نفس كلمة سر المدير
+            const correctPassword = LOGIN_PASSWORD; 
 
             const enteredUsername = document.getElementById('username-input').value;
             const enteredPassword = document.getElementById('password-input').value;
@@ -524,6 +525,7 @@
             endPeriod(totalAmount);
         }
 
+        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية
         function endPeriod(totalAmount) {
             const totalOrders = parseInt(document.getElementById('total-orders-count').textContent);
 
@@ -537,7 +539,7 @@
                 id: pastPeriods.length + 1,
                 time: new Date().toLocaleTimeString('ar-EG'),
                 date: new Date().toLocaleDateString('ar-EG'),
-                totalAmount: totalAmount,
+                totalAmount: totalAmount, // سيتم حفظ المبلغ مع الكسر
                 totalOrders: totalOrders, 
                 itemsLog: currentItemsLog
             };
@@ -557,9 +559,10 @@
             
             updateSummary();
 
-            alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${Math.trunc(totalAmount)}.`);
+            alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${totalAmount}.`); 
         }
 
+        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية
         function displayPastPeriods() {
             const container = document.getElementById('past-periods');
             container.innerHTML = '<h2>سجل الفترات السابقة</h2>'; 
@@ -576,13 +579,13 @@
             };
 
             pastPeriods.slice().reverse().forEach(period => {
-                const truncatedAmount = Math.trunc(period.totalAmount); 
+                const fullAmount = period.totalAmount; 
                 
                 const logDiv = document.createElement('div');
                 logDiv.className = 'period-log';
                 logDiv.innerHTML = `
                     <h3>فترة رقم ${period.id} - ${period.time} (${period.date})</h3>
-                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${truncatedAmount}</span></p> 
+                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${fullAmount}</span></p> 
                     <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> ${period.totalOrders}</p>
                     <h4>تفاصيل الأصناف:</h4>
                     ${formatItemsLog(period.itemsLog)}
@@ -591,6 +594,7 @@
             });
         }
         
+        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية في التقرير النهائي
         function generateDailySalesReport() {
             if (pastPeriods.length === 0) {
                 alert("لا يوجد بيانات مسجلة لإنشاء التقرير.");
@@ -612,7 +616,7 @@
             const sortedItems = Object.entries(combinedSales)
                 .sort(([, a], [, b]) => b - a);
 
-            const finalTotalMoney = Math.trunc(totalMoney); 
+            const finalTotalMoney = totalMoney; 
 
             let tableHTML = '<table>';
             tableHTML += '<thead><tr><th>الصنف</th><th>الكمية الكلية المباعة</th></tr></thead>';
@@ -654,7 +658,6 @@
             if (!confirm("هل أنت متأكد من حذف السجل بالكامل؟ هذه الخطوة لا يمكن التراجع عنها.")) {
                 return;
             }
-            // إظهار المودال (النافذة المنبثقة)
             document.getElementById('password-modal').style.display = 'flex';
             document.getElementById('password-input-delete').focus(); 
         }
