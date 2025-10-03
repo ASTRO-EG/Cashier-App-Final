@@ -1,94 +1,141 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سجل الكاشير - تسجيل الدخول</title>
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="https://i.ibb.co/FWSY5QY/rose-removebg.png"> 
+    <link rel="apple-touch-icon" href="https://i.ibb.co/FWSY5QY/rose-removebg.png"> 
+
+<style>
         /* ------------------------------------------------ */
-        /* التنسيقات العامة (المظهر الفاتح - الزمردي) */
+        /* متغيرات الألوان الجديدة (مستوحاة من تصميم بابا غنوج) */
         /* ------------------------------------------------ */
         :root {
-            --primary-color: #008080; 
-            --secondary-color: #28a745; 
-            --danger-color: #dc3545; 
-            --text-color: #212529; 
-            --background-color: #e9f5f5; 
-            --container-bg: #ffffff; 
-            --input-bg: #f3fcfc; 
-            --border-color: #c9e0e0;
-            --shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            --header-color: #006666;
-        }
-
-        /* ------------------------------------------------ */
-        /* الوضع المظلم (Dark Mode) - الزمردي الداكن */
-        /* ------------------------------------------------ */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary-color: #00b3b3; 
-                --secondary-color: #38c15b;
-                --danger-color: #ff6b6b;
-                --text-color: #e9ecef; 
-                --background-color: #1f2828; 
-                --container-bg: #2b3a3a; 
-                --input-bg: #3c4c4c;
-                --border-color: #4a5c5c;
-                --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-                --header-color: #00cccc;
-            }
-            .item-table td:first-child {
-                background-color: var(--background-color) !important;
-            }
+            --main-theme-color: #FF8A65; /* برتقالي مرجاني */
+            --accent-color: #FFA726; /* برتقالي ساطع */
+            --text-dark: #4E342E; /* بني داكن */
+            --text-header: #5D4037; /* بني العناوين */
+            --bg-light: #fff6e9; /* خلفية بيضاء دافئة */
+            --container-bg: rgba(255, 253, 250, 0.95); /* خلفية الحاويات */
+            --border-light: #D7CCC8; /* حدود بني فاتح/رمادي */
+            --shadow-color: rgba(141, 110, 99, 0.15); /* ظل أرضي */
+            --danger-color: #dc3545; /* أحمر للخطر/الحذف */
+            --success-color: #66BB6A; /* أخضر للإضافة */
+            --report-color: #42A5F5; /* أزرق للتقرير */
+            --end-period-color: #7E57C2; /* بنفسجي لتسجيل الفترة */
         }
         
-        /* التنسيقات المطبقة على الجميع */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--background-color); 
-            padding: 20px; 
-            text-align: right; 
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+        /* ------------------------------------------------ */
+        /* التنسيقات العامة (تغيير الخط هنا) */
+        /* ------------------------------------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            /* **الخط الجديد: Tajawal** */
+            font-family: 'Tajawal', sans-serif;
         }
+
+        body { 
+            background: linear-gradient(135deg, #f8f5f0, var(--bg-light)); 
+            color: var(--text-dark); 
+            padding: 15px; 
+            min-height: 100vh;
+            text-align: right; 
+            direction: rtl;
+        }
+        
         .container { 
             max-width: 900px; 
-            margin: 0 auto; 
+            margin: 25px auto; 
             background-color: var(--container-bg); 
             padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: var(--shadow); 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px var(--shadow-color); 
+            border: 1px solid rgba(139, 69, 19, 0.1);
+            position: relative;
         }
-        h1, h2, h3 { color: var(--header-color); border-bottom: none !important; }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--main-theme-color), var(--accent-color));
+            border-radius: 0 0 2px 2px;
+        }
+
+        h1, h2, h3 { 
+            color: var(--text-header); 
+            font-weight: 900; 
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after, h2::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--main-theme-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        h3::after { content: none; } 
 
         /* ---------------------------------- */
         /* شاشة تسجيل الدخول */
         /* ---------------------------------- */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--primary-color); 
+            background: linear-gradient(135deg, var(--main-theme-color), var(--accent-color));
             color: white; display: flex; justify-content: center;
             align-items: center; z-index: 1000; text-align: center;
         }
+        
         .login-box {
-            background-color: var(--container-bg); color: var(--text-color);
-            padding: 40px; border-radius: 10px; box-shadow: var(--shadow);
-            width: 300px;
+            background-color: var(--container-bg); color: var(--text-dark);
+            padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 300px; border: 1px solid var(--border-light);
         }
+        
         .login-box input {
-            width: 100%; padding: 10px; margin: 10px 0;
-            border: 1px solid var(--border-color); border-radius: 5px;
+            width: 100%; padding: 15px 20px; margin: 10px 0;
+            border: 2px solid var(--border-light); border-radius: 12px;
             box-sizing: border-box; text-align: right; direction: rtl; 
-            background-color: var(--input-bg); color: var(--text-color);
+            background: rgba(255, 255, 255, 0.8); color: var(--text-dark);
+            font-weight: 700; 
         }
+        
+        .login-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 167, 38, 0.25);
+        }
+        
         #login-button {
-            background-color: var(--secondary-color); color: white;
-            padding: 10px; border: none; border-radius: 5px; cursor: pointer;
-            width: 100%; margin-top: 15px; font-size: 1.1em;
-            transition: background-color 0.2s;
+            background: linear-gradient(135deg, var(--main-theme-color), var(--accent-color));
+            color: white;
+            padding: 16px; border: none; border-radius: 12px; cursor: pointer;
+            width: 100%; margin-top: 15px; font-size: 1.1em; font-weight: 800;
+            box-shadow: 0 6px 15px rgba(255, 138, 101, 0.3);
+            transition: all 0.2s;
         }
-        #login-button:hover { background-color: #1e7e34; }
-
+        
+        #login-button:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(255, 138, 101, 0.4);
+        }
 
         /* ---------------------------------- */
         /* واجهة الكاشير */
@@ -96,80 +143,163 @@
         #cashier-content { display: none; }
         
         .category-title { 
-            font-size: 1.4em; font-weight: 600; margin-top: 25px; 
+            font-size: 1.4em; font-weight: 700; margin-top: 25px; 
             margin-bottom: 10px; padding-bottom: 5px; 
-            border-bottom: 2px solid var(--primary-color); 
-            color: var(--primary-color); 
+            border-bottom: 2px dashed var(--border-light); 
+            color: var(--text-header); 
         }
         
         /* تنسيق جدول الإدخال */
         .item-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 25px; border-radius: 8px; overflow: hidden; }
-        .item-table th, .item-table td { padding: 12px; border: 1px solid var(--border-color); text-align: center; }
-        .item-table th { background-color: var(--input-bg); font-weight: bold; color: var(--text-color); }
-        .item-table td:first-child { text-align: right; font-weight: bold; color: var(--danger-color); background-color: var(--background-color); }
-        .item-table tr:hover td { background-color: var(--input-bg); }
+        .item-table th, .item-table td { padding: 12px; border: 1px solid var(--border-light); text-align: center; }
+        .item-table th { background-color: var(--bg-light); font-weight: 700; color: var(--text-dark); }
+        .item-table td:first-child { text-align: right; font-weight: 700; color: var(--text-header); background-color: var(--container-bg); border-left: 4px solid var(--accent-color); }
+        .item-table tr:hover td { background-color: rgba(255, 248, 240, 0.7); }
 
         /* الأزرار والمدخلات */
         .quantity-input { 
             width: 50px; text-align: center; padding: 5px; 
-            border: 1px solid var(--border-color); border-radius: 4px;
-            background-color: var(--container-bg); color: var(--text-color);
+            border: 1px solid var(--border-light); border-radius: 4px;
+            background-color: white; color: var(--text-dark);
+            font-weight: 700;
         }
         .quantity-btn { 
             padding: 6px 12px; border: none; background-color: var(--danger-color); 
-            color: white; border-radius: 4px; cursor: pointer; font-weight: bold; 
+            color: white; border-radius: 4px; cursor: pointer; font-weight: 700; 
             transition: background-color 0.2s;
         }
-        .quantity-btn.plus { background-color: var(--secondary-color); }
+        .quantity-btn.plus { background-color: var(--success-color); }
         .quantity-btn:hover { opacity: 0.8; }
         
         /* صناديق الملخص */
         .summary-box { 
-            background-color: var(--input-bg); padding: 20px; 
-            border-radius: 8px; margin-top: 20px; font-size: 1.1em;
-            border: 1px dashed var(--primary-color);
+            background: rgba(255, 248, 240, 0.7);
+            padding: 20px; 
+            border-radius: 16px; margin-top: 20px; font-size: 1.1em;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 10px var(--shadow-color);
         }
         
-        /* صندوق التقرير النهائي */
+        /* صندوق التقرير النهائي - مهم: يجب أن يكون خارج container في HTML */
         #final-report-container {
-            margin-top: 40px; padding: 25px; border: 3px solid var(--primary-color);
-            background-color: var(--container-bg); border-radius: 12px; display: none; 
+            max-width: 900px; /* ضمان أن يكون التقرير بنفس عرض الحاوية */
+            margin: 25px auto;
+            padding: 25px; border: 2px solid var(--main-theme-color);
+            background-color: var(--container-bg); border-radius: 16px; 
+            display: none; 
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
-        #final-report-container table { border: 1px solid var(--border-color); }
-        #final-report-container th { background-color: var(--primary-color); color: white; }
-        .report-total-row { background-color: var(--input-bg); font-weight: bold; font-size: 1.1em; }
+        #final-report-container table { 
+            width: 100%; 
+            border-collapse: collapse;
+            border: 1px solid var(--border-light); 
+            margin-top: 15px;
+        }
+        #final-report-container th, #final-report-container td {
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            text-align: right;
+            font-weight: 700; 
+        }
+        #final-report-container th { background-color: var(--main-theme-color); color: white; }
+        .report-total-row { background-color: var(--bg-light); font-weight: 900; font-size: 1.1em; }
 
-        /* أزرار الإجراءات الرئيسية */
-        #end-period-btn { background-color: var(--primary-color); color: white; cursor: pointer; border: none; padding: 12px; width: 100%; border-radius: 6px; margin-top: 15px; }
-        #end-period-btn:hover { background-color: #006666; }
-        
-        #report-button { background-color: var(--secondary-color); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; margin-bottom: 5px; }
-        #report-button:hover { background-color: #1e7e34; }
+        /* الأزرار الرئيسية */
+        .action-btn {
+            color: white; cursor: pointer; border: none; padding: 16px; width: 100%; 
+            border-radius: 12px; margin-top: 15px; font-weight: 800; font-size: 1.1em;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
 
-        #clear-log-btn { background-color: var(--danger-color); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 10px; }
-        #clear-log-btn:hover { background-color: #c82333; }
+        #end-period-btn { 
+            background: linear-gradient(135deg, var(--end-period-color), #5E35B1); 
+        }
         
-        .print-btn { background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; margin-top: 20px; width: auto; display: inline-block; }
+        #report-button { 
+            background: linear-gradient(135deg, var(--report-color), #1976D2); 
+            margin-bottom: 5px;
+        }
+
+        #clear-log-btn { 
+            background: linear-gradient(135deg, var(--danger-color), #c82333); 
+            margin-top: 10px; 
+        }
+        
+        .print-btn { 
+            background: linear-gradient(135deg, #6c757d, #495057); 
+            color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; 
+            margin-top: 20px; width: auto; display: inline-block; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .print-btn:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
 
         /* تنسيق سجل الفترات السابقة */
         .period-log {
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 10px;
-            background-color: var(--background-color);
+            padding: 20px;
+            border: 1px solid var(--border-light);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
         }
-        .period-log h3 { color: var(--primary-color); font-size: 1.1em; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-top: 0; }
-        .period-log strong { color: var(--text-color); }
+        .period-log h3 { color: var(--text-header); font-size: 1.2em; border-bottom: 1px solid var(--border-light); padding-bottom: 5px; margin-top: 0; }
+        .period-log strong { color: var(--text-dark); font-weight: 700; }
+        .period-log ul { list-style-type: none; margin-right: 0; padding-right: 15px; }
+        .period-log li { margin-bottom: 5px; border-right: 3px solid var(--main-theme-color); padding-right: 8px; }
 
-        /* تنسيقات الطباعة */
+        /* ---------------------------------- */
+        /* تنسيقات الطباعة (تم تصحيحها) */
+        /* ---------------------------------- */
         @media print {
-            body { background-color: white !important; color: black !important; }
-            .container { box-shadow: none; border: none; padding: 0; }
-            body > *:not(#final-report-container, #password-modal) { display: none; } 
-            #final-report-container { display: block !important; border: none; background-color: white; padding: 0; }
-            .print-btn { display: none; }
-            h1, h2, h3 { color: black !important; }
+            body { 
+                background-color: white !important; 
+                color: black !important; 
+                padding: 0; 
+                margin: 0;
+            }
+            .container { 
+                box-shadow: none; 
+                border: none; 
+                padding: 0; 
+                margin: 0;
+            }
+            
+            /* إخفاء كل العناصر المباشرة في body ما عدا التقرير والمودال */
+            body > *:not(#final-report-container, #password-modal) { 
+                display: none !important; 
+            } 
+            
+            /* عرض التقرير النهائي (الذي أصبح الآن مباشرة تحت body) */
+            #final-report-container { 
+                display: block !important; 
+                border: none; 
+                background-color: white; 
+                padding: 20px; 
+                box-shadow: none;
+                max-width: 100%; /* لملء الورقة */
+                margin: 0;
+            }
+            .print-btn { 
+                display: none !important; 
+            }
+            h1, h2, h3 { 
+                color: black !important; 
+                border-bottom: 1px solid #ccc !important;
+            }
         }
 
         /* ---------------------------------- */
@@ -184,44 +314,54 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgba(0,0,0,0.6); 
+            background-color: rgba(0,0,0,0.85); 
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
             background-color: var(--container-bg);
-            margin: 15% auto; 
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            width: 80%;
+            margin: auto; 
+            padding: 30px;
+            border: 2px solid var(--accent-color);
+            width: 90%;
             max-width: 400px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
-        .modal-content h2 { color: var(--danger-color); }
+        .modal-content h2 { 
+            color: var(--danger-color); 
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 900;
+        }
+        .modal-content h2::after { content: none; }
 
         #password-input-delete {
-            width: 90%; 
-            padding: 10px; 
-            margin: 15px 0;
-            border: 1px solid var(--border-color); 
-            border-radius: 5px;
+            width: 100%; 
+            padding: 15px 20px; 
+            margin: 15px 0 25px;
+            border: 2px solid var(--border-light); 
+            border-radius: 12px;
             box-sizing: border-box; 
             text-align: center; 
             direction: ltr;
-            background-color: var(--input-bg); 
-            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.8); 
+            color: var(--text-dark);
             font-size: 1.2em;
+            font-weight: 700;
         }
 
         .modal-buttons button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             margin: 5px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 16px;
+            font-weight: 700;
             transition: opacity 0.2s;
         }
 
@@ -235,10 +375,10 @@
 
     <div id="login-screen">
         <div class="login-box">
-            <h2>تسجيل الدخول</h2>
-            <input type="text" id="username-input" placeholder="اسم المستخدم" required>
+            <h2 style="color: var(--text-header);">تسجيل الدخول</h2>
+            <input type="text" id="username-input" placeholder="اسم المستخدم" value="admin" required>
             <input type="password" id="password-input" placeholder="كلمة المرور" required>
-            <button id="login-button" onclick="login()">دخول</button>
+            <button id="login-button" onclick="login()">دخول <i class="fas fa-sign-in-alt"></i></button>
         </div>
     </div>
 
@@ -259,44 +399,50 @@
         <div id="total-input-box">
             <h2>أدخل المبلغ الإجمالي</h2> 
             <input type="number" id="total-amount" placeholder="أدخل مبلغ الإجمالي للفترة من الماكينة..." min="0">
-            <button id="end-period-btn" onclick="promptEndPeriod()">تسجيل المبلغ وإضافة الفترة</button>
+            <button id="end-period-btn" class="action-btn" onclick="promptEndPeriod()">
+                <i class="fas fa-cash-register"></i> تسجيل المبلغ وإضافة الفترة
+            </button>
         </div>
 
-        <hr>
+        <hr style="border-top: 2px dashed var(--border-light); margin: 30px 0;">
 
         <div id="past-periods">
             <h2>سجل الفترات السابقة</h2>
         </div>
         
-        <button id="report-button" onclick="promptDailyReport()">عرض تقرير مبيعات اليوم التفصيلي</button>
+        <button id="report-button" class="action-btn" onclick="promptDailyReport()">
+            <i class="fas fa-file-invoice-dollar"></i> عرض تقرير مبيعات اليوم التفصيلي
+        </button>
 
-        <button id="clear-log-btn" onclick="clearAllData()">حذف السجل بالكامل (بداية وردية جديدة)</button>
-
-        <div id="final-report-container">
-            <h3>التقرير التفصيلي لإجمالي مبيعات اليوم</h3>
-            <div id="detailed-sales-summary"></div>
-            <button class="print-btn" onclick="window.print()">طباعة التقرير</button>
-        </div>
-
+        <button id="clear-log-btn" class="action-btn" onclick="clearAllData()">
+            <i class="fas fa-trash-alt"></i> حذف السجل بالكامل (بداية وردية جديدة)
+        </button>
     </div>
-
+    
+    <div id="final-report-container">
+        <h3>التقرير التفصيلي لإجمالي مبيعات اليوم</h3>
+        <div id="detailed-sales-summary"></div>
+        <button class="print-btn" onclick="window.print()">
+            <i class="fas fa-print"></i> طباعة التقرير
+        </button>
+    </div>
     <div id="password-modal" class="modal">
         <div class="modal-content">
-            <h2>تأكيد حذف السجل</h2>
+            <h2><i class="fas fa-user-shield"></i> تأكيد حذف السجل</h2>
             <p>الرجاء إدخال كلمة سر المدير لتأكيد حذف جميع بيانات السجل:</p>
             <input type="password" id="password-input-delete" placeholder="كلمة السر" autofocus>
             <div class="modal-buttons">
-                <button id="confirm-delete-btn" onclick="executeClearData()">تأكيد الحذف</button>
-                <button id="cancel-delete-btn" onclick="closeModal()">إلغاء</button>
+                <button id="confirm-delete-btn" onclick="executeClearData()"><i class="fas fa-check"></i> تأكيد الحذف</button>
+                <button id="cancel-delete-btn" onclick="closeModal()"><i class="fas fa-times"></i> إلغاء</button>
             </div>
         </div>
     </div>
 
     <script>
         // **********************************************
-        // ----------------- دوال الأمان -----------------
+        // ----------------- دوال الأمان (كلمات السر) -----------------
         // **********************************************
-        const LOGIN_PASSWORD = "77907882"; // كلمة سر دخول الكاشير
+        const LOGIN_PASSWORD = "1010"; // كلمة سر دخول الكاشير
         const DELETION_PASSWORD = "111975"; // كلمة سر حذف السجل (المدير)
 
         function login() {
@@ -403,7 +549,7 @@
 
                 sandwichOptions.forEach(option => {
                     const itemName = `${sandwich} ${option}`; 
-                    const safeId = `input-${itemName.replace(/\s|\//g, '_')}`;
+                    const safeId = `input-${itemName.replace(/\s|\/|\(|\)/g, '_')}`;
 
                     tbody += `<td>
                         <div class="item-input-control">
@@ -435,7 +581,7 @@
                 
                 let tbody = '<tbody>';
                 otherItemCategories[category].forEach(item => {
-                    const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                    const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
                     tbody += `<tr>
                         <td style="width: 50%;">${item}</td>
                         <td>
@@ -467,7 +613,7 @@
         }
 
         function updateQuantity(itemName, delta) {
-            const safeId = `input-${itemName.replace(/\s|\//g, '_')}`;
+            const safeId = `input-${itemName.replace(/\s|\/|\(|\)/g, '_')}`;
             const input = document.getElementById(safeId);
             
             if (!input) return;
@@ -486,7 +632,7 @@
             const allItems = getAllItemNames();
             
             allItems.forEach(item => {
-                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
                 const input = document.getElementById(safeId);
                 
                 if (input && input.value > 0) {
@@ -502,7 +648,7 @@
             const allItems = getAllItemNames();
 
             allItems.forEach(item => {
-                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
                 const input = document.getElementById(safeId);
                 const quantity = parseInt(input.value);
                 
@@ -525,7 +671,6 @@
             endPeriod(totalAmount);
         }
 
-        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية
         function endPeriod(totalAmount) {
             const totalOrders = parseInt(document.getElementById('total-orders-count').textContent);
 
@@ -539,7 +684,7 @@
                 id: pastPeriods.length + 1,
                 time: new Date().toLocaleTimeString('ar-EG'),
                 date: new Date().toLocaleDateString('ar-EG'),
-                totalAmount: totalAmount, // سيتم حفظ المبلغ مع الكسر
+                totalAmount: totalAmount, 
                 totalOrders: totalOrders, 
                 itemsLog: currentItemsLog
             };
@@ -552,7 +697,7 @@
             document.getElementById('total-amount').value = ''; 
             
             getAllItemNames().forEach(item => {
-                const safeId = `input-${item.replace(/\s|\//g, '_')}`;
+                const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
                 const input = document.getElementById(safeId);
                 if (input) input.value = 0;
             });
@@ -562,16 +707,15 @@
             alert(`تم تسجيل المبلغ بنجاح. المبلغ الإجمالي المسجل للفترة هو: ${totalAmount}.`); 
         }
 
-        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية
         function displayPastPeriods() {
             const container = document.getElementById('past-periods');
             container.innerHTML = '<h2>سجل الفترات السابقة</h2>'; 
 
             const formatItemsLog = (log) => {
-                let html = '<ul style="list-style-type: square; margin-right: 20px;">';
+                let html = '<ul>';
                 for (const item in log) {
                     if (log[item] > 0) {
-                        html += `<li><strong>${item}:</strong> <span style="color: var(--primary-color); font-weight: bold;">${log[item]}</span> قطعة</li>`;
+                        html += `<li><strong>${item}:</strong> <span style="color: var(--accent-color); font-weight: bold;">${log[item]}</span> قطعة</li>`;
                     }
                 }
                 html += '</ul>';
@@ -594,7 +738,6 @@
             });
         }
         
-        // تم التحديث: إزالة Math.trunc لدعم الكسور العشرية في التقرير النهائي
         function generateDailySalesReport() {
             if (pastPeriods.length === 0) {
                 alert("لا يوجد بيانات مسجلة لإنشاء التقرير.");
@@ -616,7 +759,7 @@
             const sortedItems = Object.entries(combinedSales)
                 .sort(([, a], [, b]) => b - a);
 
-            const finalTotalMoney = totalMoney; 
+            const finalTotalMoney = totalMoney.toFixed(2); 
 
             let tableHTML = '<table>';
             tableHTML += '<thead><tr><th>الصنف</th><th>الكمية الكلية المباعة</th></tr></thead>';
@@ -687,6 +830,12 @@
             document.getElementById('password-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     login();
+                }
+            });
+            // إضافة خاصية الضغط على Enter في حقل المبلغ الإجمالي
+            document.getElementById('total-amount').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    promptEndPeriod();
                 }
             });
         });
