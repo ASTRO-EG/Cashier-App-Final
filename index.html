@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سجل الكاشير - تسجيل الدخول</title>
+    <title>سجل الكاشير - واجهة الأصناف</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
@@ -13,437 +13,556 @@
 
 <style>
         /* ------------------------------------------------ */
-        /* متغيرات الألوان الجديدة (مستوحاة من تصميم بابا غنوج) */
+        /* متغيرات الألوان الجديدة */
         /* ------------------------------------------------ */
         :root {
             --main-theme-color: #FF8A65; /* برتقالي مرجاني */
             --accent-color: #FFA726; /* برتقالي ساطع */
             --text-dark: #4E342E; /* بني داكن */
             --text-header: #5D4037; /* بني العناوين */
-            --bg-light: #fff6e9; /* خلفية بيضاء دافئة */
-            --container-bg: rgba(255, 253, 250, 0.95); /* خلفية الحاويات */
-            --border-light: #D7CCC8; /* حدود بني فاتح/رمادي */
-            --shadow-color: rgba(141, 110, 99, 0.15); /* ظل أرضي */
-            --danger-color: #dc3545; /* أحمر للخطر/الحذف */
-            --success-color: #66BB6A; /* أخضر للإضافة */
-            --report-color: #42A5F5; /* أزرق للتقرير */
-            --end-period-color: #7E57C2; /* بنفسجي لتسجيل الفترة */
+            --background-light: #FFF3E0; /* بيج فاتح */
+            --danger-color: #EF5350; /* أحمر للخطر */
+            --safe-color: #66BB6A; /* أخضر للأمان */
+            --shadow-color: rgba(78, 52, 46, 0.2);
+            --font-family: 'Tajawal', sans-serif;
         }
-        
+
         /* ------------------------------------------------ */
-        /* التنسيقات العامة (تغيير الخط هنا) */
+        /* تنسيقات عامة */
         /* ------------------------------------------------ */
-        * {
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #f8f5f0, var(--background-light));
+            color: var(--text-dark);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            /* **الخط الجديد: Tajawal** */
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        body { 
-            background: linear-gradient(135deg, #f8f5f0, var(--bg-light)); 
-            color: var(--text-dark); 
-            padding: 15px; 
-            min-height: 100vh;
-            text-align: right; 
-            direction: rtl;
-        }
-        
-        .container { 
-            max-width: 900px; 
-            margin: 25px auto; 
-            background-color: var(--container-bg); 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px var(--shadow-color); 
-            border: 1px solid rgba(139, 69, 19, 0.1);
-            position: relative;
-        }
-        
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, var(--main-theme-color), var(--accent-color));
-            border-radius: 0 0 2px 2px;
-        }
-
-        h1, h2, h3 { 
-            color: var(--text-header); 
-            font-weight: 900; 
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        h1::after, h2::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--main-theme-color), var(--accent-color));
-            border-radius: 2px;
-        }
-        
-        h3::after { content: none; } 
-
-        /* ---------------------------------- */
-        /* شاشة تسجيل الدخول */
-        /* ---------------------------------- */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--main-theme-color), var(--accent-color));
-            color: white; display: flex; justify-content: center;
-            align-items: center; z-index: 1000; text-align: center;
-        }
-        
-        .login-box {
-            background-color: var(--container-bg); color: var(--text-dark);
-            padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            width: 300px; border: 1px solid var(--border-light);
-        }
-        
-        .login-box input {
-            width: 100%; padding: 15px 20px; margin: 10px 0;
-            border: 2px solid var(--border-light); border-radius: 12px;
-            box-sizing: border-box; text-align: right; direction: rtl; 
-            background: rgba(255, 255, 255, 0.8); color: var(--text-dark);
-            font-weight: 700; 
-        }
-        
-        .login-box input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(255, 167, 38, 0.25);
-        }
-        
-        #login-button {
-            background: linear-gradient(135deg, var(--main-theme-color), var(--accent-color));
-            color: white;
-            padding: 16px; border: none; border-radius: 12px; cursor: pointer;
-            width: 100%; margin-top: 15px; font-size: 1.1em; font-weight: 800;
-            box-shadow: 0 6px 15px rgba(255, 138, 101, 0.3);
-            transition: all 0.2s;
-        }
-        
-        #login-button:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(255, 138, 101, 0.4);
-        }
-
-        /* ---------------------------------- */
-        /* واجهة الكاشير */
-        /* ---------------------------------- */
-        #cashier-content { display: none; }
-        
-        .category-title { 
-            font-size: 1.4em; font-weight: 700; margin-top: 25px; 
-            margin-bottom: 10px; padding-bottom: 5px; 
-            border-bottom: 2px dashed var(--border-light); 
-            color: var(--text-header); 
-        }
-        
-        /* تنسيق جدول الإدخال */
-        .item-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 25px; border-radius: 8px; overflow: hidden; }
-        .item-table th, .item-table td { padding: 12px; border: 1px solid var(--border-light); text-align: center; }
-        .item-table th { background-color: var(--bg-light); font-weight: 700; color: var(--text-dark); }
-        .item-table td:first-child { text-align: right; font-weight: 700; color: var(--text-header); background-color: var(--container-bg); border-left: 4px solid var(--accent-color); }
-        .item-table tr:hover td { background-color: rgba(255, 248, 240, 0.7); }
-
-        /* الأزرار والمدخلات */
-        .quantity-input { 
-            width: 50px; text-align: center; padding: 5px; 
-            border: 1px solid var(--border-light); border-radius: 4px;
-            background-color: white; color: var(--text-dark);
-            font-weight: 700;
-        }
-        .quantity-btn { 
-            padding: 6px 12px; border: none; background-color: var(--danger-color); 
-            color: white; border-radius: 4px; cursor: pointer; font-weight: 700; 
-            transition: background-color 0.2s;
-        }
-        .quantity-btn.plus { background-color: var(--success-color); }
-        .quantity-btn:hover { opacity: 0.8; }
-        
-        /* صناديق الملخص */
-        .summary-box { 
-            background: rgba(255, 248, 240, 0.7);
-            padding: 20px; 
-            border-radius: 16px; margin-top: 20px; font-size: 1.1em;
-            border: 1px solid var(--border-light);
-            box-shadow: 0 4px 10px var(--shadow-color);
-        }
-        
-        /* صندوق التقرير النهائي - مهم: يجب أن يكون خارج container في HTML */
-        #final-report-container {
-            max-width: 900px; /* ضمان أن يكون التقرير بنفس عرض الحاوية */
-            margin: 25px auto;
-            padding: 25px; border: 2px solid var(--main-theme-color);
-            background-color: var(--container-bg); border-radius: 16px; 
-            display: none; 
-            box-shadow: 0 10px 30px var(--shadow-color);
-        }
-        #final-report-container table { 
-            width: 100%; 
-            border-collapse: collapse;
-            border: 1px solid var(--border-light); 
-            margin-top: 15px;
-        }
-        #final-report-container th, #final-report-container td {
-            padding: 12px;
-            border: 1px solid var(--border-light);
+            line-height: 1.6;
+            direction: rtl; 
             text-align: right;
-            font-weight: 700; 
-        }
-        #final-report-container th { background-color: var(--main-theme-color); color: white; }
-        .report-total-row { background-color: var(--bg-light); font-weight: 900; font-size: 1.1em; }
-
-        /* الأزرار الرئيسية */
-        .action-btn {
-            color: white; cursor: pointer; border: none; padding: 16px; width: 100%; 
-            border-radius: 12px; margin-top: 15px; font-weight: 800; font-size: 1.1em;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
+            overflow-y: auto; 
         }
 
-        #end-period-btn { 
-            background: linear-gradient(135deg, var(--end-period-color), #5E35B1); 
-        }
-        
-        #report-button { 
-            background: linear-gradient(135deg, var(--report-color), #1976D2); 
-            margin-bottom: 5px;
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
 
-        #clear-log-btn { 
-            background: linear-gradient(135deg, var(--danger-color), #c82333); 
-            margin-top: 10px; 
-        }
-        
-        .print-btn { 
-            background: linear-gradient(135deg, #6c757d, #495057); 
-            color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; 
-            margin-top: 20px; width: auto; display: inline-block; font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .print-btn:hover {
-             transform: translateY(-2px);
-             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-
-        /* تنسيق سجل الفترات السابقة */
-        .period-log {
-            padding: 20px;
-            border: 1px solid var(--border-light);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border-left: 5px solid var(--accent-color);
-            box-shadow: 0 5px 15px var(--shadow-color);
-        }
-        .period-log h3 { color: var(--text-header); font-size: 1.2em; border-bottom: 1px solid var(--border-light); padding-bottom: 5px; margin-top: 0; }
-        .period-log strong { color: var(--text-dark); font-weight: 700; }
-        .period-log ul { list-style-type: none; margin-right: 0; padding-right: 15px; }
-        .period-log li { margin-bottom: 5px; border-right: 3px solid var(--main-theme-color); padding-right: 8px; }
-
-        /* ---------------------------------- */
-        /* تنسيقات الطباعة (تم تصحيحها) */
-        /* ---------------------------------- */
-        @media print {
-            body { 
-                background-color: white !important; 
-                color: black !important; 
-                padding: 0; 
-                margin: 0;
-            }
-            .container { 
-                box-shadow: none; 
-                border: none; 
-                padding: 0; 
-                margin: 0;
-            }
-            
-            /* إخفاء كل العناصر المباشرة في body ما عدا التقرير والمودال */
-            body > *:not(#final-report-container, #password-modal) { 
-                display: none !important; 
-            } 
-            
-            /* عرض التقرير النهائي (الذي أصبح الآن مباشرة تحت body) */
-            #final-report-container { 
-                display: block !important; 
-                border: none; 
-                background-color: white; 
-                padding: 20px; 
-                box-shadow: none;
-                max-width: 100%; /* لملء الورقة */
-                margin: 0;
-            }
-            .print-btn { 
-                display: none !important; 
-            }
-            h1, h2, h3 { 
-                color: black !important; 
-                border-bottom: 1px solid #ccc !important;
-            }
-        }
-
-        /* ---------------------------------- */
-        /* تنسيقات المودال السري الجديد */
-        /* ---------------------------------- */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.85); 
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--container-bg);
-            margin: auto; 
-            padding: 30px;
-            border: 2px solid var(--accent-color);
-            width: 90%;
-            max-width: 400px;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        h1, h2, h3 {
+            color: var(--text-header);
+            font-weight: 800;
             text-align: center;
         }
 
-        .modal-content h2 { 
-            color: var(--danger-color); 
-            font-size: 28px;
+        h1 {
+            border-bottom: 3px solid var(--main-theme-color);
+            padding-bottom: 10px;
             margin-bottom: 30px;
-            font-weight: 900;
-        }
-        .modal-content h2::after { content: none; }
-
-        #password-input-delete {
-            width: 100%; 
-            padding: 15px 20px; 
-            margin: 15px 0 25px;
-            border: 2px solid var(--border-light); 
-            border-radius: 12px;
-            box-sizing: border-box; 
-            text-align: center; 
-            direction: ltr;
-            background: rgba(255, 255, 255, 0.8); 
-            color: var(--text-dark);
-            font-size: 1.2em;
-            font-weight: 700;
         }
 
-        .modal-buttons button {
-            padding: 12px 25px;
-            margin: 5px;
+        /* ------------------------------------------------ */
+        /* تنسيقات شاشة الدخول */
+        /* ------------------------------------------------ */
+        #login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--main-theme-color) 0%, var(--accent-color) 100%);
+            z-index: 1000;
+        }
+        
+        .login-box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            width: 350px;
+        }
+
+        .login-box h2 {
+            margin-top: 0;
+            color: var(--main-theme-color);
+            font-size: 2em;
+        }
+
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .login-box input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--main-theme-color);
+            color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.1em;
             font-weight: 700;
-            transition: opacity 0.2s;
+            transition: background-color 0.3s, transform 0.1s;
         }
 
-        #confirm-delete-btn { background-color: var(--danger-color); color: white; }
-        #cancel-delete-btn { background-color: #6c757d; color: white; }
-        #confirm-delete-btn:hover, #cancel-delete-btn:hover { opacity: 0.8; }
+        .login-box button:hover {
+            background-color: #E67A5A;
+        }
+        .login-box button:active {
+            transform: scale(0.98);
+        }
 
+        /* ------------------------------------------------ */
+        /* تنسيقات المحتوى الرئيسي (الكاشير) */
+        /* ------------------------------------------------ */
+        #cashier-content {
+            display: none;
+            padding: 20px 0;
+        }
+        
+        /* ------------------------------------------------ */
+        /* تنسيقات الأصناف والكميات (لـ Desktop) */
+        /* ------------------------------------------------ */
+        #item-inputs-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow-x: auto; 
+            overflow-y: hidden; 
+        }
+        
+        .items-grid {
+            display: grid;
+            /* 15 صفاً كحد أقصى لفرض عرض 4 أعمدة على الأجهزة الكبيرة (51/15=3.4) */
+            grid-template-rows: repeat(15, minmax(65px, 1fr)); 
+            grid-auto-columns: minmax(320px, 1fr); 
+            gap: 15px;
+            padding: 10px;
+            /* الترتيب عمودي (من الأعلى للأسفل) */
+            grid-auto-flow: column; 
+        }
+
+        .item-box {
+            background-color: #fff;
+            border: 2px solid var(--main-theme-color);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            cursor: default; 
+        }
+        
+        .item-name-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-name {
+            font-weight: 900; 
+            font-size: 1.05em; 
+            color: var(--text-header); 
+            line-height: 1.3;
+            flex-grow: 1;
+        }
+        
+        .item-number {
+            font-size: 1em; 
+            font-weight: 900; 
+            color: var(--accent-color);
+            background-color: rgba(255, 253, 250, 0.95);
+            padding: 4px 8px;
+            border-radius: 6px;
+            min-width: 30px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+        
+        /* حقل الإدخال الجديد */
+        .quantity-input {
+            width: 60px;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid var(--safe-color);
+            border-radius: 6px;
+            font-weight: 700;
+            color: var(--danger-color);
+            background-color: #E8F5E9; 
+            font-size: 1em;
+        }
+
+        /* ------------------------------------------------ */
+        /* **تعديلات لوحات التحكم والأزرار** */
+        /* ------------------------------------------------ */
+        
+        /* تحسين لوحات التحكم والملخص */
+        #amount-input-panel, .control-panel {
+            background-color: #ffffff; 
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(78, 52, 46, 0.15); 
+            border: 1px solid #E0E0E0;
+        }
+        
+        /* تنسيق عناوين لوحات التحكم */
+        #amount-input-panel h2, .control-panel h2 {
+            font-weight: 900 !important; 
+            color: var(--main-theme-color); 
+            text-align: right !important;
+            border-bottom: 3px solid var(--accent-color) !important;
+            padding-bottom: 8px !important;
+            margin-top: 0 !important;
+            margin-bottom: 25px !important;
+        }
+        
+        /* تنسيق لوحة التحكم المرنة */
+        .control-flex {
+            display: flex; 
+            align-items: flex-end; 
+            gap: 20px;
+            font-weight: 800; 
+            font-size: 1.1em;
+        }
+        
+        .control-flex > div {
+            flex: 1;
+        }
+        
+        /* تحسين وضوح Label */
+        #amount-input-panel label {
+            font-weight: 800 !important;
+            color: var(--text-header) !important;
+            font-size: 1.1em !important;
+        }
+
+        /* تحسين حقل الإدخال للمبلغ الإجمالي */
+        #total-amount {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid var(--main-theme-color); 
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 1.2em;
+            font-weight: 900; 
+            color: var(--text-header);
+            background-color: var(--background-light); 
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+        #total-amount:focus {
+            border-color: var(--safe-color);
+            box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.3); 
+            background-color: #fff;
+            outline: none;
+        }
+
+        /* تحسين الملخص */
+        .summary-box {
+            background-color: var(--safe-color) !important; 
+            color: white !important; 
+            padding: 15px 20px !important;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-weight: 800 !important; 
+            flex-grow: 0 !important; 
+            min-width: 150px !important; 
+        }
+        
+        /* الرقم (0) لعدد الوحدات */
+        #total-orders-count {
+            display: block;
+            font-size: 2.2em;
+            font-weight: 900 !important; 
+            margin-top: 5px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); 
+        }
+        
+        /* تحسين الأزرار الرئيسية */
+        .control-flex button, .report-btns button {
+            padding: 15px 20px !important;
+            border-radius: 10px !important;
+            font-size: 1.1em !important;
+            font-weight: 800 !important; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 100%; 
+        }
+        .control-flex button:hover, .report-btns button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* تعديل زر إنهاء الفترة */
+        .end-period-btn {
+            background-color: var(--accent-color) !important;
+            color: white !important;
+        }
+        /* تعديل زر التقرير */
+        .report-btns button:first-child {
+            background-color: var(--main-theme-color);
+            color: white;
+        }
+        /* تعديل زر الحذف */
+        .report-btns button:last-child {
+            background-color: var(--danger-color) !important;
+        }
+        
+        /* تنسيق جدول التقرير */
+        #final-report-container table { 
+            width: 100%; 
+            border-collapse: collapse;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        #final-report-container th, #final-report-container td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: right;
+            font-weight: 700; 
+        }
+        #final-report-container th { 
+            background-color: var(--main-theme-color); 
+            color: white; 
+            font-weight: 900;
+        }
+        .report-total-row { 
+            background-color: var(--background-light); 
+            font-weight: 900; 
+            font-size: 1.1em; 
+            color: var(--danger-color);
+        }
+
+        /* ------------------------------------------------ */
+        /* تنسيقات المودال (نافذة كلمة السر للحذف) */
+        /* ------------------------------------------------ */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: linear-gradient(135deg, var(--main-theme-color) 0%, var(--accent-color) 100%);
+            justify-content: center;
+            align-items: center;
+            display: flex; 
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 40px; 
+            border: none; 
+            width: 90%;
+            max-width: 400px; 
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        
+        .modal-content h3 {
+            color: var(--danger-color);
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 900; 
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            font-weight: 700; 
+            color: var(--text-dark);
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid var(--danger-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 18px; 
+            text-align: center;
+            font-weight: 900; 
+        }
+
+        .modal-content .modal-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-content .confirm-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        .modal-content .confirm-btn:hover {
+            background-color: #C62828;
+        }
+        
+        .modal-content .cancel-btn {
+            background-color: #eee;
+            color: var(--text-dark);
+        }
+        .modal-content .cancel-btn:hover {
+            background-color: #ddd;
+        }
+
+        .modal-content .modal-btns button {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 800; 
+            font-size: 1.1em;
+            transition: background-color 0.2s;
+        }
+
+
+        /* ------------------------------------------------ */
+        /* تنسيقات الأجهزة الصغيرة (الهاتف) */
+        /* التعديل: 3 أعمدة وبدء الترقيم من الأعلى إلى الأسفل */
+        /* ------------------------------------------------ */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px auto;
+            }
+            .items-grid {
+                /* 1. تحديد 3 أعمدة متساوية */
+                grid-template-columns: repeat(3, 1fr);
+                /* 2. تحديد 17 صف (51 صنف / 3 أعمدة = 17) */
+                grid-template-rows: repeat(17, minmax(65px, 1fr));
+                /* 3. ترتيب العناصر عمودياً (من الأعلى للأسفل) */
+                grid-auto-flow: column; 
+                
+                grid-auto-columns: auto;
+                max-height: none;
+            }
+            .control-flex {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch; 
+            }
+            .control-flex > div {
+                min-width: 100%;
+            }
+            .report-btns {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="login-box">
-            <h2 style="color: var(--text-header);">تسجيل الدخول</h2>
-            <input type="text" id="username-input" placeholder="اسم المستخدم" value="admin" required>
-            <input type="password" id="password-input" placeholder="كلمة المرور" required>
-            <button id="login-button" onclick="login()">دخول <i class="fas fa-sign-in-alt"></i></button>
+            <h2>تسجيل الدخول</h2>
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="اسم المستخدم (Admin)" value="admin">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="كلمة المرور">
+            </div>
+            <button onclick="login()">دخول</button>
         </div>
     </div>
 
+    <div id="cashier-content" class="container">
+        <h1>برنامج تسجيل الأصناف</h1>
 
-    <div class="container" id="cashier-content">
-        
-        <h1>سجل الأوردرات اليومي</h1>
-        
-        <h2>أدخل الكمية المطلوبة بجانب كل صنف:</h2>
-        
-        <div id="item-inputs-container"></div>
-        
-        <div class="summary-box">
-            <h3>ملخص الفترة الحالية:</h3>
-            <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> <span id="total-orders-count">0</span></p>
+        <div id="item-inputs-container">
+            </div>
+
+        <div id="amount-input-panel">
+            <h2>
+                تسجيل إجمالي الفترة الحالية
+            </h2>
+            <div class="control-flex">
+                <div>
+                    <label for="total-amount">
+                        المبلغ الإجمالي المسجل من الماكينة:
+                    </label>
+                    <input type="number" id="total-amount" placeholder="أدخل مبلغ الإجمالي هنا" min="0">
+                </div>
+                
+                <div class="summary-box">
+                    <p>إجمالي عدد الوحدات:</p>
+                    <span id="total-orders-count">0</span>
+                </div>
+                
+                <div>
+                    <button class="end-period-btn" onclick="promptEndPeriod()">
+                        إنهاء الفترة وتسجيل المبلغ
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="control-panel">
+            <h2>خيارات السجل والتقارير</h2>
+            <div class="report-btns">
+                <button onclick="promptDailyReport()"><i class="fas fa-file-invoice"></i> إعداد وعرض تقرير المبيعات التفصيلي</button>
+                <button onclick="clearAllData()"><i class="fas fa-trash"></i> حذف السجل بالكامل (وردية جديدة)</button>
+            </div>
         </div>
 
-        <div id="total-input-box">
-            <h2>أدخل المبلغ الإجمالي</h2> 
-            <input type="number" id="total-amount" placeholder="أدخل مبلغ الإجمالي للفترة من الماكينة..." min="0">
-            <button id="end-period-btn" class="action-btn" onclick="promptEndPeriod()">
-                <i class="fas fa-cash-register"></i> تسجيل المبلغ وإضافة الفترة
-            </button>
+        <div id="final-report-container" style="display: none;">
+            <h2>تقرير مبيعات الفترة/اليوم الكلي</h2>
+            <p><strong>تاريخ التقرير:</strong> <span id="report-date"></span></p>
+            <div id="detailed-sales-summary">
+                </div>
         </div>
-
-        <hr style="border-top: 2px dashed var(--border-light); margin: 30px 0;">
 
         <div id="past-periods">
             <h2>سجل الفترات السابقة</h2>
-        </div>
-        
-        <button id="report-button" class="action-btn" onclick="promptDailyReport()">
-            <i class="fas fa-file-invoice-dollar"></i> عرض تقرير مبيعات اليوم التفصيلي
-        </button>
+            </div>
 
-        <button id="clear-log-btn" class="action-btn" onclick="clearAllData()">
-            <i class="fas fa-trash-alt"></i> حذف السجل بالكامل (بداية وردية جديدة)
-        </button>
     </div>
     
-    <div id="final-report-container">
-        <h3>التقرير التفصيلي لإجمالي مبيعات اليوم</h3>
-        <div id="detailed-sales-summary"></div>
-        <button class="print-btn" onclick="window.print()">
-            <i class="fas fa-print"></i> طباعة التقرير
-        </button>
-    </div>
-    <div id="password-modal" class="modal">
+    <div id="password-modal" class="modal" style="display: none;">
         <div class="modal-content">
-            <h2><i class="fas fa-user-shield"></i> تأكيد حذف السجل</h2>
-            <p>الرجاء إدخال كلمة سر المدير لتأكيد حذف جميع بيانات السجل:</p>
-            <input type="password" id="password-input-delete" placeholder="كلمة السر" autofocus>
-            <div class="modal-buttons">
-                <button id="confirm-delete-btn" onclick="executeClearData()"><i class="fas fa-check"></i> تأكيد الحذف</button>
-                <button id="cancel-delete-btn" onclick="closeModal()"><i class="fas fa-times"></i> إلغاء</button>
+            <h3>تأكيد عملية الحذف</h3>
+            <p>الرجاء إدخال كلمة سر المدير لحذف السجل بالكامل:</p>
+            <input type="password" id="password-input-delete" placeholder="كلمة السر">
+            <div class="modal-btns">
+                <button class="confirm-btn" onclick="executeClearData()">تأكيد الحذف</button>
+                <button class="cancel-btn" onclick="closeModal()">إلغاء</button>
             </div>
         </div>
     </div>
-
+    
     <script>
         // **********************************************
         // ----------------- دوال الأمان (كلمات السر) -----------------
         // **********************************************
-        const LOGIN_PASSWORD = "1010"; // كلمة سر دخول الكاشير
-        const DELETION_PASSWORD = "111975"; // كلمة سر حذف السجل (المدير)
+        const LOGIN_PASSWORD = "1010"; 
+        const DELETION_PASSWORD = "111975"; 
 
         function login() {
             const correctUsername = "admin";
@@ -452,7 +571,6 @@
             const enteredUsername = document.getElementById('username-input').value;
             const enteredPassword = document.getElementById('password-input').value;
             
-            // التحقق من اسم المستخدم وكلمة السر
             if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('cashier-content').style.display = 'block';
@@ -463,7 +581,6 @@
             }
         }
         
-        // ******************** دوال المودال (النافذة المنبثقة) ********************
         function closeModal() {
             document.getElementById('password-modal').style.display = 'none';
             document.getElementById('password-input-delete').value = ''; 
@@ -474,7 +591,6 @@
             closeModal(); 
 
             if (enteredPassword === DELETION_PASSWORD) {
-                // الحذف الفعلي للبيانات
                 localStorage.removeItem('cashierPeriods');
                 pastPeriods = [];
                 
@@ -488,155 +604,105 @@
 
 
         // **********************************************
-        // ----------------- دوال الكاشير -----------------
+        // ----------------- تعريف الأصناف (بناء التسلسل 1-51) -----------------
         // **********************************************
         
-        // تعريف الأصناف (بقي كما هو)
-        const mainSandwiches = [
-            "شاورمه", "كفته", "كبده", "سجق", "مخ", "روزبيف", 
-            "جبنه رومي", "هامبرجر", "سوسيس"
+        const ALL_ITEMS_IN_ORDER = [
+            // شاورمه (1-4)
+            "شاورمه كيذر", "شاورمه شامي", "شاورمه فينا", "شاورمه طبق", // 1-4
+            // أصناف جانبية (5-13)
+            "مكرونه", "كبيبه", "ورق عنب", "سلطه خضراء", "طماطم مخلل", "باذنجان مخلل", "شيبسي", "بابا غنوج", "طرشي", // 5-13
+            // ساندويتشات كيذر و فردية (14-22)
+            // تم تعديل الأسماء هنا لتكون على النحو التالي: [الصنف] ص
+            "كفته ص", 
+            "سجق ص", 
+            "كبده ص", 
+            "مخ ص", 
+            "روزبيف ص", 
+            "جبنه رومي", "فراخ بانيه ص", "بيف برجر", "سوسيس ", // 19-22
+            // ساندويتشات شامي (23-29)
+            "كفته شامي", "سجق شامي", "كبده شامي", "مخ شامي", "روزبيف شامي", "سوسيس شامي", "فراخ شامي", // 23-29
+            // ساندويتشات فينا (30-36)
+            "كفته فينا", "سجق فينا", "كبده فينا", "مخ فينا", "روزبيف فينا", "سوسيس فينا", "فراخ فينا",
+            // جبنه رومي طبق مكرر (37)
+            "جبنه رومي فينا", 
+            // عصائر (38-46)
+            " مانجو", " فراوله", " رمان", " برتقال", " عنب", " جوافه", " موز", " كانتالوب", "كوكتيل ",
+            // مشروبات غازية ومياه (47-51)
+            "كولا", "سبرايت", "فانتا", "دايت ", "مياه معدنيه"
         ];
-        const sandwichOptions = ["كيذر", "شامي", "فينا", "طبق"];
-        const otherItemCategories = {
-            "أصناف جانبية": [
-                "مكرونه", "كبيبه", "شيبسي", "مخللات", "طرشي", "طلب عيش"
-            ],
-            "مشروبات غازية ومياه": [
-                "مياه معدنيه ص 600ملى", "مياه غازيه 300ملي", "مياه غازيه 400ملي", 
-                "مياه غازيه 300ملي بلاستيك", "كانز ك 320ملي", "كانز جيب 240ملى"
-            ],
-            "عصائر طبيعية": [
-                "عصير فواكه حسب الموسم", "عصير مانجو صيفي /فراوله", 
-                "عصير مانجو شتوي", "عصير رمان/عنب", "كوكتيل فواكه حسب الموسم"
-            ]
-        };
         
         let pastPeriods = []; 
 
         function getAllItemNames() {
             const names = [];
-            mainSandwiches.forEach(sandwich => {
-                sandwichOptions.forEach(option => {
-                    names.push(`${sandwich} ${option}`);
-                });
+            let itemCounter = 1;
+            
+            ALL_ITEMS_IN_ORDER.forEach(item => {
+                names.push({ name: item, number: itemCounter++ });
             });
-            for (const category in otherItemCategories) {
-                names.push(...otherItemCategories[category]);
-            }
-            return names;
+            
+            return names; 
         }
         
-        function createSandwichTable(container) {
-             const title = document.createElement('div');
-            title.className = 'category-title';
-            title.textContent = "الساندويتشات (مدمجة مع خيارات العيش/الطبق)";
-            container.appendChild(title);
-
-            const table = document.createElement('table');
-            table.className = 'item-table';
-
-            let thead = '<thead><tr><th>الصنف</th>';
-            sandwichOptions.forEach(option => {
-                thead += `<th>${option}</th>`;
-            });
-            thead += '</tr></thead>';
-            table.innerHTML = thead;
-
-            let tbody = '<tbody>';
-            mainSandwiches.forEach(sandwich => {
-                tbody += '<tr>';
-                tbody += `<td>${sandwich}</td>`; 
-
-                sandwichOptions.forEach(option => {
-                    const itemName = `${sandwich} ${option}`; 
-                    const safeId = `input-${itemName.replace(/\s|\/|\(|\)/g, '_')}`;
-
-                    tbody += `<td>
-                        <div class="item-input-control">
-                            <button type="button" class="quantity-btn" onclick="updateQuantity('${itemName}', -1)">-</button>
-                            <input type="number" id="${safeId}" class="quantity-input" value="0" min="0" oninput="updateSummary()">
-                            <button type="button" class="quantity-btn plus" onclick="updateQuantity('${itemName}', 1)">+</button>
-                        </div>
-                    </td>`;
-                });
-                tbody += '</tr>';
-            });
-            tbody += '</tbody>';
-            table.innerHTML += tbody;
-
-            container.appendChild(table);
-        }
-
-        function createOtherItemInputs(container) {
-             for (const category in otherItemCategories) {
-                const title = document.createElement('div');
-                title.className = 'category-title';
-                title.textContent = category;
-                container.appendChild(title);
-
-                const table = document.createElement('table');
-                table.className = 'item-table';
-                table.style.width = '50%'; 
-                table.style.float = 'right'; 
-                
-                let tbody = '<tbody>';
-                otherItemCategories[category].forEach(item => {
-                    const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
-                    tbody += `<tr>
-                        <td style="width: 50%;">${item}</td>
-                        <td>
-                            <div class="item-input-control">
-                                <button type="button" class="quantity-btn" onclick="updateQuantity('${item}', -1)">-</button>
-                                <input type="number" id="${safeId}" class="quantity-input" value="0" min="0" oninput="updateSummary()">
-                                <button type="button" class="quantity-btn plus" onclick="updateQuantity('${item}', 1)">+</button>
-                            </div>
-                        </td>
-                    </tr>`;
-                });
-                tbody += '</tbody>';
-                table.innerHTML = tbody;
-                container.appendChild(table);
-                
-                const clearDiv = document.createElement('div');
-                clearDiv.style.clear = 'both';
-                container.appendChild(clearDiv);
-            }
-        }
-        
+        // **********************************************
+        // ----------------- دالة إنشاء واجهة الشبكة (Grid) -----------------
+        // **********************************************
         function createItemInputs() {
             const container = document.getElementById('item-inputs-container');
-            if(container.children.length === 0) {
-                 createSandwichTable(container); 
-                 createOtherItemInputs(container); 
+            if(container.querySelector('.items-grid')) {
+                 loadData();
+                 return;
             }
+
+            const allItems = getAllItemNames(); 
+            
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'items-grid';
+            container.appendChild(gridDiv); 
+
+            allItems.forEach(itemData => {
+                const item = itemData.name;
+                const itemNumber = itemData.number;
+                
+                const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
+                
+                const itemBox = document.createElement('div');
+                itemBox.className = 'item-box';
+                
+                itemBox.innerHTML = `
+                    <div class="item-name-group">
+                        <span class="item-number">${itemNumber}</span>
+                        <span class="item-name">${item}</span>
+                    </div>
+                    <input type="number" id="${safeId}" class="quantity-input" value="0" min="0" 
+                           oninput="updateSummary()" 
+                           onclick="this.select()">
+                `;
+                
+                gridDiv.appendChild(itemBox); 
+            });
+            
             loadData();
         }
-
-        function updateQuantity(itemName, delta) {
-            const safeId = `input-${itemName.replace(/\s|\/|\(|\)/g, '_')}`;
-            const input = document.getElementById(safeId);
-            
-            if (!input) return;
-
-            let currentValue = parseInt(input.value) || 0;
-            let newValue = currentValue + delta;
-            
-            if (newValue < 0) newValue = 0; 
-
-            input.value = newValue;
-            updateSummary();
-        }
-
+        
+        // **********************************************
+        // ----------------- دوال تحديث الكمية والسجل -----------------
+        // **********************************************
+        
         function updateSummary() {
             let totalCount = 0;
-            const allItems = getAllItemNames();
+            const allItems = getAllItemNames().map(i => i.name);
             
             allItems.forEach(item => {
                 const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
-                const input = document.getElementById(safeId);
+                const inputElement = document.getElementById(safeId);
                 
-                if (input && input.value > 0) {
-                    totalCount += parseInt(input.value); 
+                if (inputElement) {
+                    const quantity = parseInt(inputElement.value) || 0;
+                    if (quantity > 0) {
+                        totalCount += quantity; 
+                    }
                 }
             });
             
@@ -645,12 +711,12 @@
         
         function getCurrentItemsLog() {
             const itemsLog = {};
-            const allItems = getAllItemNames();
+            const allItems = getAllItemNames().map(i => i.name);
 
             allItems.forEach(item => {
                 const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
-                const input = document.getElementById(safeId);
-                const quantity = parseInt(input.value);
+                const inputElement = document.getElementById(safeId);
+                const quantity = parseInt(inputElement.value) || 0; 
                 
                 if (quantity > 0) {
                     itemsLog[item] = quantity;
@@ -696,10 +762,10 @@
 
             document.getElementById('total-amount').value = ''; 
             
-            getAllItemNames().forEach(item => {
+            getAllItemNames().map(i => i.name).forEach(item => {
                 const safeId = `input-${item.replace(/\s|\/|\(|\)/g, '_')}`;
-                const input = document.getElementById(safeId);
-                if (input) input.value = 0;
+                const inputElement = document.getElementById(safeId);
+                if (inputElement) inputElement.value = 0;
             });
             
             updateSummary();
@@ -715,7 +781,7 @@
                 let html = '<ul>';
                 for (const item in log) {
                     if (log[item] > 0) {
-                        html += `<li><strong>${item}:</strong> <span style="color: var(--accent-color); font-weight: bold;">${log[item]}</span> قطعة</li>`;
+                        html += `<li><strong>${item}:</strong> <span style="color: var(--accent-color); font-weight: 800;">${log[item]}</span> قطعة</li>`;
                     }
                 }
                 html += '</ul>';
@@ -727,11 +793,12 @@
                 
                 const logDiv = document.createElement('div');
                 logDiv.className = 'period-log';
+                logDiv.style.cssText = 'padding: 15px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; background-color: #f9f9f9;';
                 logDiv.innerHTML = `
                     <h3>فترة رقم ${period.id} - ${period.time} (${period.date})</h3>
-                    <p><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: bold; font-size: 1.2em;">${fullAmount}</span></p> 
-                    <p><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> ${period.totalOrders}</p>
-                    <h4>تفاصيل الأصناف:</h4>
+                    <p style="font-weight: 700;"><strong>الإجمالي المسجل من الماكينة:</strong> <span style="color: var(--danger-color); font-weight: 900; font-size: 1.2em;">${fullAmount}</span></p> 
+                    <p style="font-weight: 700;"><strong>إجمالي عدد الوحدات/القطع المدخلة:</strong> ${period.totalOrders}</p>
+                    <h4 style="font-weight: 800; margin-top: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">تفاصيل الأصناف:</h4>
                     ${formatItemsLog(period.itemsLog)}
                 `;
                 container.appendChild(logDiv);
@@ -756,10 +823,14 @@
                 }
             });
 
-            const sortedItems = Object.entries(combinedSales)
-                .sort(([, a], [, b]) => b - a);
+            const orderedItems = getAllItemNames().map(i => i.name); 
+            const sortedItems = orderedItems
+                .map(item => [item, combinedSales[item] || 0])
+                .filter(([, quantity]) => quantity > 0);
+
 
             const finalTotalMoney = totalMoney.toFixed(2); 
+            document.getElementById('report-date').textContent = new Date().toLocaleDateString('ar-EG');
 
             let tableHTML = '<table>';
             tableHTML += '<thead><tr><th>الصنف</th><th>الكمية الكلية المباعة</th></tr></thead>';
@@ -780,6 +851,16 @@
             summaryDiv.innerHTML = tableHTML;
             reportContainer.style.display = 'block'; 
             
+            if (!reportContainer.querySelector('.print-btn')) {
+                 const printBtn = document.createElement('button');
+                 printBtn.className = 'print-btn end-period-btn';
+                 printBtn.style.marginTop = '20px';
+                 printBtn.style.width = 'auto';
+                 printBtn.textContent = 'طباعة التقرير';
+                 printBtn.setAttribute('onclick', 'window.print()');
+                 reportContainer.appendChild(printBtn);
+            }
+            
             setTimeout(() => {
                 reportContainer.scrollIntoView({ behavior: 'smooth' });
             }, 50); 
@@ -796,7 +877,6 @@
             generateDailySalesReport();
         }
 
-        // دالة الحذف: تفتح النافذة المنبثقة لطلب كلمة السر المخفية
         function clearAllData() {
             if (!confirm("هل أنت متأكد من حذف السجل بالكامل؟ هذه الخطوة لا يمكن التراجع عنها.")) {
                 return;
@@ -815,24 +895,22 @@
                 pastPeriods = JSON.parse(savedPeriods);
                 displayPastPeriods(); 
             }
+            updateSummary();
         }
         
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cashier-content').style.display = 'none';
             
-            // إضافة خاصية الضغط على Enter في المودال لتأكيد الحذف
             document.getElementById('password-input-delete').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     executeClearData();
                 }
             });
-            // إضافة خاصية الضغط على Enter في حقول الدخول
             document.getElementById('password-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     login();
                 }
             });
-            // إضافة خاصية الضغط على Enter في حقل المبلغ الإجمالي
             document.getElementById('total-amount').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     promptEndPeriod();
